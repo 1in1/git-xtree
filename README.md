@@ -7,7 +7,6 @@ To install, drop `git-xtree` in your `PATH` and add
 ```
 [alias]
     log-with-markers = log --all --graph --decorate=short --date-order --color --format=format:'%C(bold blue)%h%C(reset)§%C(dim normal)(%cr)%C(reset)§%C(auto)%d%C(reset)§§\n§§§       %C(normal)%an%C(reset)%C(dim normal): %s%C(reset)'
-    xtree = !git-xtree
 ```
 
 to your `gitconfig`. Apologies for using `zsh` solely for `colors` :)

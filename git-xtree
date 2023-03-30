@@ -16,5 +16,5 @@ git log-with-markers \
 		padlen=24+length(arr[2])-length(rawtime[1]); \
 		printf("%*s    %s %s %s\n", padlen, arr[2], arr[1], arr[3], arr[4]); \
 	}' \
-	| less -FX -p $(git show -s --format=%h)
+	| less -RFX -p $(git show -s --format=%h)
 
