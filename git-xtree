@@ -2,19 +2,25 @@
 autoload -U colors && colors
 
 function test-cmd-exists() {
-	if ! type $1 > /dev/null; then
-		echo "$fg_bold[red]ERROR$reset_color: $1 not installed. aborting."
-		exit 1
-	fi
+    if ! type $1 > /dev/null; then
+        echo "$fg_bold[red]ERROR$reset_color: $1 not installed. aborting."
+        exit 1
+    fi
 }
 test-cmd-exists gawk
 
-git log-with-markers \
-	| gawk '{ \
-		split($0,arr,"§"); \
-		match(arr[2], /(\([0-9a-z ,]+\))/, rawtime); \
-		padlen=24+length(arr[2])-length(rawtime[1]); \
-		printf("%*s    %s %s %s\n", padlen, arr[2], arr[1], arr[3], arr[4]); \
-	}' \
-	| less -RFX -p $(git show -s --format=%h)
+git log \
+    --all \
+    --graph \
+    --decorate=short \
+    --date-order \
+    --color \
+    --pretty=format:"%C(bold blue)%h%C(reset)§%C(dim normal)(%cr)%C(reset)§%C(auto)%d%C(reset)§§%n§§§       %C(normal)%an%C(reset)%C(dim normal): %s%C(reset)" \
+    | gawk '{ \
+        split($0,arr,"§"); \
+        match(arr[2], /(\([0-9a-z ,]+\))/, rawtime); \
+        padlen=24+length(arr[2])-length(rawtime[1]); \
+        printf("%*s    %s %s %s\n", padlen, arr[2], arr[1], arr[3], arr[4]); \
+    }' \
+    | less -RFX -p $(git show -s --format=%h)
 
