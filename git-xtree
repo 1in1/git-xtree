@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+autoload -U colors && colors
+
+function test-cmd-exists() {
+	if ! type $1 > /dev/null; then
+		echo "$fg_bold[red]ERROR$reset_color: $1 not installed. aborting."
+		exit 1
+	fi
+}
+test-cmd-exists gawk
+
+git logx \
+	| gawk '{ \
+		split($0,arr,"§"); \
+		match(arr[2], /(\([0-9a-z ,]+\))/, rawtime); \
+		padlen=24+length(arr[2])-length(rawtime[1]); \
+		printf("%*s    %s %s %s\n", padlen, arr[2], arr[1], arr[3], arr[4]); \
+	}' \
+	| less -FX -p $(git show -s --format=%h)
+
