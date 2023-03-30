@@ -9,7 +9,7 @@ function test-cmd-exists() {
 }
 test-cmd-exists gawk
 
-git logx \
+git log-with-markers \
 	| gawk '{ \
 		split($0,arr,"§"); \
 		match(arr[2], /(\([0-9a-z ,]+\))/, rawtime); \
